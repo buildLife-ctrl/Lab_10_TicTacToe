@@ -1,30 +1,62 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class TicTacToe {
     public static String [][] board = new String [3][3];
+    static Scanner scan = new Scanner(System.in);
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        String player1 = "X";
-        String player2 = "O";
-        int row;
-        int col;
+        String player1 = " X ";
+        String player2 = " O ";
+        boolean contin = true;
+        boolean validMove = false;
+        boolean win;
 
         //String isWin = isWin("")
 
         System.out.println("Welcome to Tic-Tac-Toe!");
-        System.out.println();
-        System.out.println("Player 1:");
-        row = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
-        col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
-        System.out.println();
-        displayBoard();
+
+        //do {
+            //do {
+            clearBoard();
+            displayBoard();
+            System.out.println("Player 1:");
+            do {
+                int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
+                int col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
+                if (isValidMove(row, col)) {
+                    board[row - 1][col - 1] = player1;
+                    validMove = true;
+                } else {
+                    System.out.println("Invalid move, please try again!");
+                }
+            } while (!validMove);
+            System.out.println();
+            displayBoard();
+
+            validMove = false; //so that I can redo another do while loop
+            System.out.println("Player 2:");
+            do {
+                int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
+                int col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
+                if (isValidMove(row, col)) {
+                    board[row - 1][col - 1] = player2;
+                    validMove = true;
+                } else {
+                    System.out.println("Invalid move, please try again!");
+                }
+            } while (!validMove);
+            System.out.println();
+            displayBoard();
+
+            win = isColWin(player1) ||
+            // } while (!win);
+            //contin = InputHelper.getYNConfirm(scan, "Would you like to play again?");
+        //} while (contin);
     }
 
     private static void displayBoard() {
-        for(String[] r : board) {
+        for (String[] r : board) {
             for (String c : r) {
-                c = " - ";
                 System.out.print(c);
             }
             System.out.println();
@@ -32,27 +64,28 @@ public class Main {
     }
 
     private static void clearBoard() {
-        for(String[] r : board) {
-            for (String c : r) {
-                c = " - ";
-                System.out.print(c);
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[0].length; c++) {
+                board[r][c] = " - ";
             }
-            System.out.println();
         }
     }
-    /*
-    private static boolean isValidMove(int row, int col) {
-        for(String[] r : board) {
-            for (String c : r) {
-                if (c.equalsIgnoreCase("x") || c.equalsIgnoreCase("o")) {
 
-                }
-            }
+    private static boolean isValidMove(int row, int col) {
+        if (board[row - 1][col - 1].equals(" - ")) {
+            return true;
+        } else {
+            return false;
         }
     }
 
     private static boolean isColWin(String player) {
-
+        for (String[] r : board) {
+            for (String c : r) {
+                if (c == )
+            }
+            System.out.println();
+        }
     }
 
     private static boolean isRowWin(String player) {
