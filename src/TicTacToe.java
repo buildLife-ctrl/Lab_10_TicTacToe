@@ -11,44 +11,42 @@ public class TicTacToe {
         boolean validMove = false;
         boolean win;
 
-        //String isWin = isWin("")
-
         System.out.println("Welcome to Tic-Tac-Toe!");
 
         //do {
             //do {
-            clearBoard();
-            displayBoard();
-            System.out.println("Player 1:");
-            do {
-                int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
-                int col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
-                if (isValidMove(row, col)) {
-                    board[row - 1][col - 1] = player1;
-                    validMove = true;
-                } else {
-                    System.out.println("Invalid move, please try again!");
-                }
-            } while (!validMove);
-            System.out.println();
-            displayBoard();
+                clearBoard();
+                displayBoard();
+                System.out.println("Player 1:");
+                do {
+                    int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
+                    int col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
+                    if (isValidMove(row, col)) {
+                        board[row - 1][col - 1] = player1;
+                        validMove = true;
+                    } else {
+                        System.out.println("Invalid move, please try again!");
+                    }
+                } while (!validMove);
+                System.out.println();
+                displayBoard();
 
-            validMove = false; //so that I can redo another do while loop
-            System.out.println("Player 2:");
-            do {
-                int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
-                int col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
-                if (isValidMove(row, col)) {
-                    board[row - 1][col - 1] = player2;
-                    validMove = true;
-                } else {
-                    System.out.println("Invalid move, please try again!");
-                }
-            } while (!validMove);
-            System.out.println();
-            displayBoard();
+                validMove = false; //so that I can redo another do while loop
+                System.out.println("Player 2:");
+                do {
+                    int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
+                    int col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
+                    if (isValidMove(row, col)) {
+                        board[row - 1][col - 1] = player2;
+                        validMove = true;
+                    } else {
+                        System.out.println("Invalid move, please try again!");
+                    }
+                } while (!validMove);
+                System.out.println();
+                displayBoard();
 
-            win = isColWin(player1) ||
+                //isWin()
             // } while (!win);
             //contin = InputHelper.getYNConfirm(scan, "Would you like to play again?");
         //} while (contin);
@@ -80,9 +78,16 @@ public class TicTacToe {
     }
 
     private static boolean isColWin(String player) {
+        int player1Count = 0;
+        int player2Count = 0;
+
         for (String[] r : board) {
             for (String c : r) {
-                if (c == )
+                if (c == " X ") {
+                    player1Count++;
+                } else if (c == " O ") {
+                    player2Count++;
+                }
             }
             System.out.println();
         }
