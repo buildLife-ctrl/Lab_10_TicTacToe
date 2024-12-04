@@ -9,12 +9,12 @@ public class TicTacToe {
         String player2 = " O ";
         boolean contin = true;
         boolean validMove = false;
-        boolean win;
+        boolean isWin = false;
 
         System.out.println("Welcome to Tic-Tac-Toe!");
 
         //do {
-            //do {
+            do {
                 clearBoard();
                 displayBoard();
                 System.out.println("Player 1:");
@@ -45,9 +45,7 @@ public class TicTacToe {
                 } while (!validMove);
                 System.out.println();
                 displayBoard();
-
-                //isWin()
-            // } while (!win);
+            } while (!isWin);
             //contin = InputHelper.getYNConfirm(scan, "Would you like to play again?");
         //} while (contin);
     }
@@ -78,34 +76,41 @@ public class TicTacToe {
     }
 
     private static boolean isColWin(String player) {
-        int player1Count = 0;
-        int player2Count = 0;
-
-        for (String[] r : board) {
-            for (String c : r) {
-                if (c == " X ") {
-                    player1Count++;
-                } else if (c == " O ") {
-                    player2Count++;
-                }
+        for (int c = 0; c < board[0].length; c++) {
+            if (board[0][c].equalsIgnoreCase(player) == board[1][c].equalsIgnoreCase(player) && board[0][c].equalsIgnoreCase(player) == board[2][c].equalsIgnoreCase(player)) {
+                return true;
             }
-            System.out.println();
         }
+
+        return false;
     }
 
     private static boolean isRowWin(String player) {
+        for (int r = 0; r < board.length; r++) {
+            if (board[r][0].equalsIgnoreCase(player) == board[r][1].equalsIgnoreCase(player) && board[r][0].equalsIgnoreCase(player) == board[r][2].equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
 
+        return false;
     }
 
+    /*
     private static boolean isDiagonalWin(String player) {
 
     }
 
     private static boolean isTie() {
 
-    }
+    }*/
 
     private static boolean isWin(String player) {
+        if (isColWin(player)) {
+            System.out.println("Player " + player + " wins! They got a column.");
+        } else if (isRowWin(player)) {
+            System.out.println("Player " + player + " wins! They got a row.");
+        }
 
-    }*/
+        return false;
+    }
 }
