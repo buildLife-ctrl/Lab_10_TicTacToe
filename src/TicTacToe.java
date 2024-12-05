@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -7,13 +6,13 @@ public class TicTacToe {
     public static void main(String[] args) {
         String player1 = " X ";
         String player2 = " O ";
-        boolean contin = true;
+        boolean contin;
         boolean validMove = false;
-        boolean isWin = false;
+        boolean win;
 
         System.out.println("Welcome to Tic-Tac-Toe!");
 
-        //do {
+        do {
             do {
                 clearBoard();
                 displayBoard();
@@ -45,9 +44,11 @@ public class TicTacToe {
                 } while (!validMove);
                 System.out.println();
                 displayBoard();
-            } while (!isWin);
-            //contin = InputHelper.getYNConfirm(scan, "Would you like to play again?");
-        //} while (contin);
+
+                win = isWin(player1) || isWin(player2);
+            } while (!win);
+            contin = InputHelper.getYNConfirm(scan, "Would you like to play again?");
+        } while (contin);
     }
 
     private static void displayBoard() {
@@ -68,11 +69,7 @@ public class TicTacToe {
     }
 
     private static boolean isValidMove(int row, int col) {
-        if (board[row - 1][col - 1].equals(" - ")) {
-            return true;
-        } else {
-            return false;
-        }
+        return board[row - 1][col - 1].equals(" - ");
     }
 
     private static boolean isColWin(String player) {
@@ -86,31 +83,54 @@ public class TicTacToe {
     }
 
     private static boolean isRowWin(String player) {
-        for (int r = 0; r < board.length; r++) {
-            if (board[r][0].equalsIgnoreCase(player) == board[r][1].equalsIgnoreCase(player) && board[r][0].equalsIgnoreCase(player) == board[r][2].equalsIgnoreCase(player)) {
-                return true;
+        boolean win = false;
+
+        for (String[] strings : board) {
+            if (strings[0].equalsIgnoreCase(player) == strings[1].equalsIgnoreCase(player) && strings[0].equalsIgnoreCase(player) == strings[2].equalsIgnoreCase(player)) {
+                win = true;
             }
         }
 
-        return false;
+        return win;
     }
 
-    /*
-    private static boolean isDiagonalWin(String player) {
 
+    private static boolean isDiagonalWin(String player) {
+        boolean diagonalLeftToRight = board[0][0].equalsIgnoreCase(player) == board[1][1].equalsIgnoreCase(player) && board[0][0].equalsIgnoreCase(player) == board[2][2].equalsIgnoreCase(player);
+        boolean diagonalRightToLeft = board[0][2].equalsIgnoreCase(player) == board[1][1].equalsIgnoreCase(player) && board[0][2].equalsIgnoreCase(player) == board[2][0].equalsIgnoreCase(player);
+        boolean win = false;
+
+        for (String[] r : board) {
+            for (String c : r) {
+                if (diagonalLeftToRight || diagonalRightToLeft) {
+                    win = true;
+                }
+            }
+            System.out.println();
+        }
+
+        return win;
     }
 
     private static boolean isTie() {
 
-    }*/
+        return false;
+    }
 
     private static boolean isWin(String player) {
+        boolean win = false;
+
         if (isColWin(player)) {
-            System.out.println("Player " + player + " wins! They got a column.");
+            win = true;
+            System.out.println("Player " + player + " got a column win!");
         } else if (isRowWin(player)) {
-            System.out.println("Player " + player + " wins! They got a row.");
+            win = true;
+            System.out.println("Player " + player + " got a row win!");
+        } else if (isDiagonalWin(player)) {
+            win = true;
+            System.out.println("Player " + player + " got a diagonal win!");
         }
 
-        return false;
+        return win;
     }
 }
