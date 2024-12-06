@@ -12,10 +12,10 @@ public class TicTacToe {
 
         System.out.println("Welcome to Tic-Tac-Toe!");
 
-        do {
-            do {
-                clearBoard();
-                displayBoard();
+        do { //plays while the player wants to play a new game
+            clearBoard();
+            displayBoard();
+            do { //Plays until there is a
                 System.out.println("Player 1:");
                 do {
                     int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
@@ -30,22 +30,26 @@ public class TicTacToe {
                 System.out.println();
                 displayBoard();
 
-                validMove = false; //so that I can redo another do while loop
-                System.out.println("Player 2:");
-                do {
-                    int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
-                    int col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
-                    if (isValidMove(row, col)) {
-                        board[row - 1][col - 1] = player2;
-                        validMove = true;
-                    } else {
-                        System.out.println("Invalid move, please try again!");
-                    }
-                } while (!validMove);
-                System.out.println();
-                displayBoard();
+                win = isWin(player1);
 
-                win = isWin(player1) || isWin(player2);
+                if (!win) {
+                    validMove = false; //so that I can redo another do while loop
+                    System.out.println("Player 2:");
+                    do {
+                        int row = InputHelper.getRangedInt(scan, "Enter a row move [1 - 3]:", 1, 3);
+                        int col = InputHelper.getRangedInt(scan, "Enter a column move [1 - 3]:", 1, 3);
+                        if (isValidMove(row, col)) {
+                            board[row - 1][col - 1] = player2;
+                            validMove = true;
+                        } else {
+                            System.out.println("Invalid move, please try again!");
+                        }
+                    } while (!validMove);
+                    System.out.println();
+                    displayBoard();
+
+                    win = isWin(player1) || isWin(player2);
+                }
             } while (!win);
             contin = InputHelper.getYNConfirm(scan, "Would you like to play again?");
         } while (contin);
@@ -73,13 +77,15 @@ public class TicTacToe {
     }
 
     private static boolean isColWin(String player) {
+        boolean win = false;
+
         for (int c = 0; c < board[0].length; c++) {
             if (board[0][c].equalsIgnoreCase(player) == board[1][c].equalsIgnoreCase(player) && board[0][c].equalsIgnoreCase(player) == board[2][c].equalsIgnoreCase(player) && board[0][c].equals(player)) {
-                return true;
+                win = true;
             }
         }
 
-        return false;
+        return win;
     }
 
     private static boolean isRowWin(String player) {
@@ -96,38 +102,49 @@ public class TicTacToe {
 
 
     private static boolean isDiagonalWin(String player) {
-        boolean diagonalLeftToRight = board[0][0].equalsIgnoreCase(player) == board[1][1].equalsIgnoreCase(player) && board[0][0].equalsIgnoreCase(player) == board[2][2].equalsIgnoreCase(player);
-        boolean diagonalRightToLeft = board[0][2].equalsIgnoreCase(player) == board[1][1].equalsIgnoreCase(player) && board[0][2].equalsIgnoreCase(player) == board[2][0].equalsIgnoreCase(player);
-        boolean win = false;
+        boolean diagonalLeftToRight = true;
+        boolean diagonalRightToLeft = true;
 
-        System.out.println(diagonalLeftToRight + " " + diagonalRightToLeft);
-
-        for (String[] r : board) {
-            for (String c : r) {
-                if (diagonalLeftToRight || diagonalRightToLeft) {
-                    win = true;
-                }
+        for (int r = 0; r < board.length; r++) {
+            if (!board[r][r].equalsIgnoreCase(player)) {
+                diagonalLeftToRight = false;
+                break;
             }
-            System.out.println();
         }
 
-        return win;
+        for (int r = 0; r < board.length; r++) {
+            int c = board.length - 1 - r;
+            if (!board[r][c].equalsIgnoreCase(player)) {
+                diagonalRightToLeft = false;
+                break;
+            }
+        }
+
+        return diagonalLeftToRight || diagonalRightToLeft;
     }
 
-    private static boolean isTie() {
-        int count = 0;
+    private static boolean isTie(String player) {
+        int count = 1;
+        boolean tie = false;
 
-        for (String[] r : board) {
-            for (String c : r) {
-
+        for (String[] strings : board) {
+            if (strings[0].equalsIgnoreCase(player)) {
+                count++;
+            } else {
+                break;
             }
-            System.out.println();
         }
-        return false;
+
+        if (count == 9) {
+            tie = true;
+        }
+
+        return tie;
     }
 
     private static boolean isWin(String player) {
         boolean win = false;
+        boolean tie = false;
 
         if (isColWin(player)) {
             win = true;
@@ -138,8 +155,11 @@ public class TicTacToe {
         } else if (isDiagonalWin(player)) {
             win = true;
             System.out.println("Player " + player + " got a diagonal win!");
+        } else if (isTie(player)) {
+            System.out.println("You both win! It's a tie.");
+            tie = true;
         }
 
-        return win;
+        return win || tie;
     }
 }
