@@ -74,7 +74,7 @@ public class TicTacToe {
 
     private static boolean isColWin(String player) {
         for (int c = 0; c < board[0].length; c++) {
-            if (board[0][c].equalsIgnoreCase(player) == board[1][c].equalsIgnoreCase(player) && board[0][c].equalsIgnoreCase(player) == board[2][c].equalsIgnoreCase(player)) {
+            if (board[0][c].equalsIgnoreCase(player) == board[1][c].equalsIgnoreCase(player) && board[0][c].equalsIgnoreCase(player) == board[2][c].equalsIgnoreCase(player) && board[0][c].equals(player)) {
                 return true;
             }
         }
@@ -86,7 +86,7 @@ public class TicTacToe {
         boolean win = false;
 
         for (String[] strings : board) {
-            if (strings[0].equalsIgnoreCase(player) == strings[1].equalsIgnoreCase(player) && strings[0].equalsIgnoreCase(player) == strings[2].equalsIgnoreCase(player)) {
+            if (strings[0].equalsIgnoreCase(player) == strings[1].equalsIgnoreCase(player) && strings[0].equalsIgnoreCase(player) == strings[2].equalsIgnoreCase(player) && strings[0].equals(player)) {
                 win = true;
             }
         }
@@ -99,6 +99,8 @@ public class TicTacToe {
         boolean diagonalLeftToRight = board[0][0].equalsIgnoreCase(player) == board[1][1].equalsIgnoreCase(player) && board[0][0].equalsIgnoreCase(player) == board[2][2].equalsIgnoreCase(player);
         boolean diagonalRightToLeft = board[0][2].equalsIgnoreCase(player) == board[1][1].equalsIgnoreCase(player) && board[0][2].equalsIgnoreCase(player) == board[2][0].equalsIgnoreCase(player);
         boolean win = false;
+
+        System.out.println(diagonalLeftToRight + " " + diagonalRightToLeft);
 
         for (String[] r : board) {
             for (String c : r) {
@@ -113,7 +115,14 @@ public class TicTacToe {
     }
 
     private static boolean isTie() {
+        int count = 0;
 
+        for (String[] r : board) {
+            for (String c : r) {
+
+            }
+            System.out.println();
+        }
         return false;
     }
 
