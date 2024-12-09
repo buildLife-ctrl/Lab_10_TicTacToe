@@ -124,14 +124,14 @@ public class TicTacToe {
     }
 
     private static boolean isTie(String player) {
-        int count = 1;
+        int count = 0;
         boolean tie = false;
 
         for (String[] strings : board) {
-            if (strings[0].equalsIgnoreCase(player)) {
-                count++;
-            } else {
-                break;
+            for(String row:strings) {
+                if (!row.equalsIgnoreCase(" - ")) {
+                    count++;
+                }
             }
         }
 
